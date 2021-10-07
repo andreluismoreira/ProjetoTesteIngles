@@ -1,5 +1,6 @@
 import { HtmlAstPath } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import {frase} from '../shared/frase.model';
 import { FRASES } from './frases-mock'; 
 
@@ -34,16 +35,32 @@ export class PainelComponent implements OnInit {
       alert("Digite algo!")
     }
     if (this.tratarString(this.rodadaFrase.frasePtBR) == this.tratarString(this.resposta)){
-      //alert('A tradução esta correta!');
+      // Swal.fire(
+      //   'Good job!',
+      //   'A Tradução esta correta',
+      //   'success'
+      // )
+      Swal.fire({
+        icon: 'success',
+        title: 'Bom trabalho !',
+        text: 'A Tradução esta correta',
+        showConfirmButton: false,
+        timer: 1500
+      })
       this.rodada ++;
       this.progresso = this.progresso + 20
       this.atualizaRodada()
-    }else{
-      //alert('A tradução esta errada')
+    }
+    else{
       this.tentativas --
       this.resposta = ''
+
       if(this.tentativas === -1){
-        alert('Você perdeu todas as tentativas')
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Você perdeu todas as tentativas'
+        })
       }
     }
   }
