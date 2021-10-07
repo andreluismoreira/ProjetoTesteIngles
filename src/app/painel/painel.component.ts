@@ -17,6 +17,7 @@ export class PainelComponent implements OnInit {
   public rodada: number = 0
   public rodadaFrase!: frase
   public progresso: number = 0
+  public tentativas: number = 3
 
   constructor() { 
    this.atualizaRodada()
@@ -29,25 +30,28 @@ export class PainelComponent implements OnInit {
   }
 
   public verificarResposta(): void{
-    if (this.tratarString(this.rodadaFrase.frasePtBR) == this.tratarString(this.resposta)){
-      alert('A tradução esta correta!');
-      this.rodada ++;
-      this.progresso = this.progresso + 25
-      this.atualizaRodada()
-
-    }else{
-      alert('A tradução esta errada')
-      this.resposta = ''
-
+    if(this.resposta == ""){
+      alert("Digite algo!")
     }
-
+    if (this.tratarString(this.rodadaFrase.frasePtBR) == this.tratarString(this.resposta)){
+      //alert('A tradução esta correta!');
+      this.rodada ++;
+      this.progresso = this.progresso + 20
+      this.atualizaRodada()
+    }else{
+      //alert('A tradução esta errada')
+      this.tentativas --
+      this.resposta = ''
+      if(this.tentativas === -1){
+        alert('Você perdeu todas as tentativas')
+      }
+    }
   }
 
   private tratarString(frase: string): string {
     while (frase.includes('  ')) {
       frase = frase.replace('  ', ' ')
     }
-    console.log(frase);
     return frase.trim().toUpperCase()
   }
 
