@@ -1,4 +1,7 @@
+import { HtmlAstPath } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import {frase} from '../shared/frase.model';
+import { FRASES } from './frases-mock'; 
 
 @Component({
   selector: 'app-painel',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PainelComponent implements OnInit {
 
-  constructor() { }
+  public frases: frase[] = FRASES
+  public instrucao: string = 'Traduza a frase:'
+  public resposta!: string 
 
-  ngOnInit(): void {
+  constructor() { 
+    console.log(this.frases)
+  }
+
+  ngOnInit(): void {}
+
+  public atualizaResposta(resposta: Event): void {
+    this.resposta = ((<HTMLInputElement>resposta.target).value);
+    
   }
 
 }

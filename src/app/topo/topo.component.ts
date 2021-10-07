@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 
 export class TopoComponent  {
-
+    //one way data binding
+    public titulo: string ='Aprendendo Inglês'
 
 }
