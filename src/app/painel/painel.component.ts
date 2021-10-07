@@ -8,21 +8,52 @@ import { FRASES } from './frases-mock';
   templateUrl: './painel.component.html',
   styleUrls: ['./painel.component.css']
 })
+
 export class PainelComponent implements OnInit {
 
   public frases: frase[] = FRASES
   public instrucao: string = 'Traduza a frase:'
-  public resposta!: string 
+  public resposta: string = ''
+  public rodada: number = 0
+  public rodadaFrase!: frase
+  public progresso: number = 0
 
   constructor() { 
-    console.log(this.frases)
+   this.atualizaRodada()
   }
 
   ngOnInit(): void {}
 
   public atualizaResposta(resposta: Event): void {
     this.resposta = ((<HTMLInputElement>resposta.target).value);
-    
+  }
+
+  public verificarResposta(): void{
+    if (this.tratarString(this.rodadaFrase.frasePtBR) == this.tratarString(this.resposta)){
+      alert('A tradução esta correta!');
+      this.rodada ++;
+      this.progresso = this.progresso + 25
+      this.atualizaRodada()
+
+    }else{
+      alert('A tradução esta errada')
+      this.resposta = ''
+
+    }
+
+  }
+
+  private tratarString(frase: string): string {
+    while (frase.includes('  ')) {
+      frase = frase.replace('  ', ' ')
+    }
+    console.log(frase);
+    return frase.trim().toUpperCase()
+  }
+
+  public atualizaRodada(): void{
+    this.rodadaFrase = this.frases[this.rodada]
+    this.resposta = ''
   }
 
 }
