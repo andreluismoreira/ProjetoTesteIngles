@@ -1,5 +1,5 @@
 import { HtmlAstPath } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import Swal from 'sweetalert2';
 import {frase} from '../shared/frase.model';
 import { FRASES } from './frases-mock'; 
@@ -10,7 +10,7 @@ import { FRASES } from './frases-mock';
   styleUrls: ['./painel.component.css']
 })
 
-export class PainelComponent implements OnInit {
+export class PainelComponent implements OnInit, OnDestroy {
 
   public frases: frase[] = FRASES
   public instrucao: string = 'Traduza a frase:'
@@ -19,6 +19,7 @@ export class PainelComponent implements OnInit {
   public rodadaFrase!: frase
   public progresso: number = 0
   public tentativas: number = 3
+  @Output() public encerrarJogo: EventEmitter<string> = new EventEmitter()
 
   constructor() { 
    this.atualizaRodada()
@@ -26,34 +27,47 @@ export class PainelComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnDestroy() {}
+
   public atualizaResposta(resposta: Event): void {
     this.resposta = ((<HTMLInputElement>resposta.target).value);
   }
 
   public verificarResposta(): void{
-    if(this.resposta == ""){
-      alert("Digite algo!")
-    }
+   
     if (this.tratarString(this.rodadaFrase.frasePtBR) == this.tratarString(this.resposta)){
-      // Swal.fire(
-      //   'Good job!',
-      //   'A Tradução esta correta',
-      //   'success'
-      // )
       Swal.fire({
         icon: 'success',
         title: 'Bom trabalho !',
         text: 'A Tradução esta correta',
         showConfirmButton: false,
-        timer: 1500
+        timer: 800
       })
       this.rodada ++;
       this.progresso = this.progresso + 20
+
+      if(this.rodada === 5){
+        Swal.fire({
+          icon: 'success',
+          title: 'Bom trabalho !',
+          text: 'Jogo encerrado voce venceu!'
+        })
+        this.encerrarJogo.emit('vitoria')
+      }
+
       this.atualizaRodada()
+
     }
     else{
       this.tentativas --
       this.resposta = ''
+      Swal.fire({
+        icon: 'error',
+        title: 'Tente Novamente !',
+        text: 'A Tradução esta errada',
+        showConfirmButton: false,
+        timer: 800
+      })
 
       if(this.tentativas === -1){
         Swal.fire({
@@ -61,6 +75,7 @@ export class PainelComponent implements OnInit {
           title: 'Oops...',
           text: 'Você perdeu todas as tentativas'
         })
+         this.encerrarJogo.emit('derrota')
       }
     }
   }
