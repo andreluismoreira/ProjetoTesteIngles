@@ -1,18 +1,18 @@
-# App1
+# Jogo de Frases
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.7.
+Este projeto foi desenvolvido com [Angular CLI](https://github.com/angular/angular-cli) version 12.2.7.
 
 ## Detalhes do Projeto
-Mini projeto desenvolvido para pratica de da Tecnologia Angular 12.
+Mini projeto desenvolvido para pratica da Tecnologia Angular 12.
 
-## Development server
+## Passo a Passo para rodar o Projeto
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Build
+## Gerando o Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Further help
+## Para mais detalhes sobre o angular
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
